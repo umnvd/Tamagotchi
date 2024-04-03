@@ -22,5 +22,4 @@ dependencyResolutionManagement {
 }
 
 rootProject.name = "Tamagotchi"
-includeBuild("build-logic")
 include(":app")
