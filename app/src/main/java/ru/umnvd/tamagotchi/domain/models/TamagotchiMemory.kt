@@ -10,7 +10,8 @@ import java.time.LocalDateTime
  * @property lastPlay последняя игра
  * @property lastPunishment последнее наказание
  * @property lastDefecation последнее испражнение
- * @property lastIgnore последнее игнорирование
+ * @property lastCleaning последняя уборка
+ * @property lastUserInteraction последнее взаимодействие с пользователем
  * */
 data class TamagotchiMemory(
     val lastMeal: LocalDateTime?,
@@ -18,5 +19,6 @@ data class TamagotchiMemory(
     val lastPlay: LocalDateTime?,
     val lastPunishment: LocalDateTime?,
     val lastDefecation: LocalDateTime?,
-    val lastIgnore: LocalDateTime?,
+    val lastCleaning: LocalDateTime?,
+    val lastUserInteraction: LocalDateTime?,
 )

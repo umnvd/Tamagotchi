@@ -33,7 +33,7 @@ class IgnoreTamagotchiUseCase {
         }
 
         val newMemory = currentMemory.copy(
-            lastIgnore = LocalDateTime.now(),
+            lastUserInteraction = LocalDateTime.now(),
         )
 
         // TODO: Save result

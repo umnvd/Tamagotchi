@@ -1,8 +1,9 @@
-package ru.umnvd.tamagotchi
+package ru.umnvd.tamagotchi.presentation
 
 import android.accessibilityservice.AccessibilityService
 import android.util.Log
 import android.view.accessibility.AccessibilityEvent
+import ru.umnvd.tamagotchi.presentation.TamagotchiWindow
 
 class TamagotchiAccessibilityService : AccessibilityService() {
 

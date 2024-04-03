@@ -31,7 +31,7 @@
 <!--            android:enabled="true"-->
 <!--            android:exported="true" />-->
 
-        <service android:name=".TamagotchiAccessibilityService"
+        <service android:name=".presentation.TamagotchiAccessibilityService"
             android:enabled="true"
             android:exported="true"
             android:permission="android.permission.BIND_ACCESSIBILITY_SERVICE">

@@ -1,4 +1,4 @@
-package ru.umnvd.tamagotchi
+package ru.umnvd.tamagotchi.presentation
 
 import android.content.Context
 import android.graphics.PixelFormat
@@ -10,7 +10,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
 import androidx.core.content.getSystemService
-import androidx.core.view.updateLayoutParams
+import ru.umnvd.tamagotchi.R
 import kotlin.math.roundToInt
 
 class TamagotchiWindow(private val context: Context) {

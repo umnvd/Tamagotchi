@@ -1,4 +1,4 @@
-package ru.umnvd.tamagotchi
+package ru.umnvd.tamagotchi.presentation
 
 import android.app.Service
 import android.content.Intent
