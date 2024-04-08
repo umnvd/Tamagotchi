@@ -1,14 +1,15 @@
 package ru.umnvd.tamagotchi.domain.usecases
 
-import ru.umnvd.tamagotchi.domain.models.FoodType
 import ru.umnvd.tamagotchi.domain.models.Tamagotchi
+import ru.umnvd.tamagotchi.domain.repositories.TamagotchiRepository
 import java.time.LocalDateTime
 
-class FeedTamagotchiUseCase {
+class FeedTamagotchiSweetsUseCase constructor(
+    private val tamagotchiRepository: TamagotchiRepository
+)  {
 
     data class Params(
         val tamagotchi: Tamagotchi,
-        val foodType: FoodType,
     )
 
     // TODO: Add tamagotchi answer. Tamagothi may not want to eat if he well-fed,
@@ -19,27 +20,17 @@ class FeedTamagotchiUseCase {
         val currentState = tamagotchi.state
         val currentMemory = tamagotchi.memory
 
-        val newState = when (params.foodType) {
-            FoodType.SUBSTANTIAL_MEAL -> {
-                currentState.copy(
-                    satiety = currentState.satiety + SATIETY_STEP,
-                )
-            }
+        val newState = currentState.copy(
+            joy = currentState.joy + JOY_STEP,
+            weight = currentState.weight + WEIGHT_STEP,
+        )
 
-            FoodType.SWEETS -> {
-                currentState.copy(
-                    joy = currentState.joy + JOY_STEP,
-                    weight = currentState.weight + WEIGHT_STEP,
-                )
-            }
-        }
         val newMemory = currentMemory.copy(
             lastMeal = LocalDateTime.now()
         )
 
-        // TODO: Save result
-        return Result.success(
-            value = tamagotchi.copy(
+        return tamagotchiRepository.saveTamagotchi(
+            tamagotchi = tamagotchi.copy(
                 state = newState,
                 memory = newMemory,
             )
@@ -48,7 +39,6 @@ class FeedTamagotchiUseCase {
 
     companion object {
 
-        private const val SATIETY_STEP = 1
         private const val JOY_STEP = 1
         private const val WEIGHT_STEP = 1
     }

@@ -4,10 +4,10 @@ package ru.umnvd.tamagotchi.domain.models
  * Сигналы тамагочи
  * */
 enum class TamagotchiSignal {
-    /**
-     * Требует внимания
-     * */
-    ATTENTION,
+//    /**
+//     * Требует внимания
+//     * */
+//    ATTENTION,
 
     /**
      * Хочет кушать
