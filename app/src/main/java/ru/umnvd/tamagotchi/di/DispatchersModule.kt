@@ -7,7 +7,7 @@ import kotlinx.coroutines.Dispatchers
 import javax.inject.Singleton
 
 @Module
-interface DispatchersModule {
+class DispatchersModule {
 
     @Provides
     @Singleton

@@ -1,4 +1,4 @@
-package ru.umnvd.tamagotchi.domain.usecases.userinteraction
+package ru.umnvd.tamagotchi.domain.usecases.user
 
 import ru.umnvd.tamagotchi.domain.models.LastTamagotchiSleep
 import ru.umnvd.tamagotchi.domain.models.Tamagotchi
@@ -28,9 +28,12 @@ class TurnOffLightUseCase @Inject constructor(
             light = false,
         )
 
+        val currentDateTime = LocalDateTime.now()
+
         val newMemory = currentMemory.copy(
             lastSleep = LastTamagotchiSleep(
-                start = LocalDateTime.now(),
+                start = currentDateTime,
+                end = currentDateTime.plusHours(SLEEP_HOURS)
             ),
         )
 
@@ -40,5 +43,10 @@ class TurnOffLightUseCase @Inject constructor(
                 room = newRoom,
             )
         )
+    }
+
+    companion object {
+
+        private const val SLEEP_HOURS = 8L
     }
 }

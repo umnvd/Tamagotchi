@@ -1,4 +1,4 @@
-package ru.umnvd.tamagotchi.domain.usecases.userinteraction
+package ru.umnvd.tamagotchi.domain.usecases.user
 
 import ru.umnvd.tamagotchi.domain.models.Tamagotchi
 import ru.umnvd.tamagotchi.domain.repositories.TamagotchiRepository
@@ -21,6 +21,7 @@ class PlayWithTamagotchiUseCase @Inject constructor(
         val newState = currentState.copy(
             joy = currentState.joy + JOY_STEP,
             weight = currentState.weight - WEIGHT_STEP,
+            energy = currentState.energy - ENERGY_STEP,
         )
 
         val newMemory = currentMemory.copy(
@@ -39,5 +40,6 @@ class PlayWithTamagotchiUseCase @Inject constructor(
 
         private const val JOY_STEP = 15
         private const val WEIGHT_STEP = 5
+        private const val ENERGY_STEP = 5
     }
 }

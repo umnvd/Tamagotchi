@@ -1,4 +1,4 @@
-package ru.umnvd.tamagotchi.domain.usecases.userinteraction
+package ru.umnvd.tamagotchi.domain.usecases.user
 
 import ru.umnvd.tamagotchi.domain.models.Tamagotchi
 import ru.umnvd.tamagotchi.domain.repositories.TamagotchiRepository

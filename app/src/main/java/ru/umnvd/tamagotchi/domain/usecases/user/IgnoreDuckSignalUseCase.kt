@@ -1,11 +1,10 @@
-package ru.umnvd.tamagotchi.domain.usecases.userinteraction
+package ru.umnvd.tamagotchi.domain.usecases.user
 
 import ru.umnvd.tamagotchi.domain.models.Tamagotchi
 import ru.umnvd.tamagotchi.domain.repositories.TamagotchiRepository
-import java.time.LocalDateTime
 import javax.inject.Inject
 
-class IgnoreEatSignalUseCase @Inject constructor(
+class IgnoreDuckSignalUseCase @Inject constructor(
     private val tamagotchiRepository: TamagotchiRepository
 ) {
 
@@ -14,23 +13,15 @@ class IgnoreEatSignalUseCase @Inject constructor(
     )
 
     suspend operator fun invoke(params: Params): Result<Tamagotchi> {
-        val tamagotchi = params.tamagotchi
-        val currentState = tamagotchi.state
-
-        val newWeight = if (currentState.satiety <= 0) {
-            currentState.weight - WEIGHT_STEP
-        } else {
-            currentState.weight
-        }
+        val currentTamagotchi = params.tamagotchi
+        val currentState = currentTamagotchi.state
 
         val newState = currentState.copy(
-            satiety = currentState.satiety - SATIETY_STEP,
-            weight = newWeight,
             discipline = currentState.discipline - DISCIPLINE_STEP,
         )
 
         return tamagotchiRepository.saveTamagotchi(
-            tamagotchi = tamagotchi.copy(
+            tamagotchi = currentTamagotchi.copy(
                 state = newState,
             )
         )
@@ -38,8 +29,6 @@ class IgnoreEatSignalUseCase @Inject constructor(
 
     companion object {
 
-        private const val SATIETY_STEP = 10
-        private const val WEIGHT_STEP = 10
         private const val DISCIPLINE_STEP = 10
     }
 }

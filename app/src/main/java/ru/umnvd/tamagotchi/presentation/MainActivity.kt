@@ -1,5 +1,7 @@
 package ru.umnvd.tamagotchi.presentation
 
+import android.app.AlarmManager
+import android.app.PendingIntent
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
@@ -9,23 +11,31 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
+import androidx.core.content.getSystemService
 import ru.umnvd.tamagotchi.ui.theme.TamagotchiTheme
+import kotlin.time.Duration.Companion.milliseconds
+import kotlin.time.Duration.Companion.seconds
 
 
 class MainActivity : ComponentActivity() {
 
-    private val overlaySettingsLauncher =
-        registerForActivityResult(
-            ActivityResultContracts.StartActivityForResult(),
-            ::onOverlaySettingsResult,
-        )
+//    private val overlaySettingsLauncher =
+//        registerForActivityResult(
+//            ActivityResultContracts.StartActivityForResult(),
+//            ::onOverlaySettingsResult,
+//        )
 
     private val accessibilitySettingsLauncher =
         registerForActivityResult(
@@ -43,7 +53,7 @@ class MainActivity : ComponentActivity() {
         } else {
             Log.d("TEST", "onCreate: Has permission")
 //            startTamagotchiService()
-            startTamagotchiAccessibilityService()
+//            startTamagotchiAccessibilityService()
         }
 
         setContent {
@@ -53,33 +63,60 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    Greeting("Android")
+                    Column(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .padding(16.dp),
+                    ) {
+                        Button(
+                            onClick = ::onScheduleServiceClick,
+                        ) {
+                            Text(text = "Schedule service")
+                        }
+                    }
                 }
             }
         }
     }
 
-    @Suppress("unused_parameter")
-    private fun onOverlaySettingsResult(result: ActivityResult) {
-        if (Settings.canDrawOverlays(this)) {
-            Log.d("TEST", "onSettingsResult: Permission granted")
-//            startTamagotchiService()
-            startTamagotchiAccessibilityService()
-        } else {
-            Log.d("TEST", "onSettingsResult: Permission denied")
-            overlaySettingsLauncher.launch(createOverlaySettingsIntent())
-        }
+    private fun onScheduleServiceClick() {
+        val alarmManager = getSystemService<AlarmManager>() ?: return
+        val intent = Intent(this, TamagotchiAccessibilityService::class.java)
+        val pendingIntent = PendingIntent.getService(
+            this,
+            101,
+            intent,
+            PendingIntent.FLAG_IMMUTABLE + PendingIntent.FLAG_UPDATE_CURRENT,
+        )
+        Log.d("TEST", "MainActivity: set AlarmManager")
+        alarmManager.set(
+            AlarmManager.RTC_WAKEUP,
+            System.currentTimeMillis() + 10.seconds.inWholeMilliseconds,
+            pendingIntent,
+        )
     }
+
+//    @Suppress("unused_parameter")
+//    private fun onOverlaySettingsResult(result: ActivityResult) {
+//        if (Settings.canDrawOverlays(this)) {
+//            Log.d("TEST", "onSettingsResult: Permission granted")
+////            startTamagotchiService()
+////            startTamagotchiAccessibilityService()
+//        } else {
+//            Log.d("TEST", "onSettingsResult: Permission denied")
+//            overlaySettingsLauncher.launch(createOverlaySettingsIntent())
+//        }
+//    }
 
     @Suppress("unused_parameter")
     private fun onAccessibilitySettingsResult(result: ActivityResult) {
         if (Settings.canDrawOverlays(this)) {
             Log.d("TEST", "onSettingsResult: Permission granted")
 //            startTamagotchiService()
-            startTamagotchiAccessibilityService()
+//            startTamagotchiAccessibilityService()
         } else {
             Log.d("TEST", "onSettingsResult: Permission denied")
-            overlaySettingsLauncher.launch(createAccessibilitySettingsIntent())
+//            overlaySettingsLauncher.launch(createAccessibilitySettingsIntent())
         }
     }
 
@@ -98,21 +135,5 @@ class MainActivity : ComponentActivity() {
 
     private fun startTamagotchiAccessibilityService() {
         startService(Intent(this, TamagotchiAccessibilityService::class.java))
-    }
-}
-
-@Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
-}
-
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    TamagotchiTheme {
-        Greeting("Android")
     }
 }

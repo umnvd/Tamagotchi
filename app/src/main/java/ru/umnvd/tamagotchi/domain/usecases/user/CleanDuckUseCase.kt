@@ -1,4 +1,4 @@
-package ru.umnvd.tamagotchi.domain.usecases.userinteraction
+package ru.umnvd.tamagotchi.domain.usecases.user
 
 import ru.umnvd.tamagotchi.domain.models.Tamagotchi
 import ru.umnvd.tamagotchi.domain.repositories.TamagotchiRepository
@@ -6,10 +6,10 @@ import java.time.LocalDateTime
 import javax.inject.Inject
 
 /**
- * Полечить тамагочи.
+ * Почистить туалет тамагочи.
  * */
-class TreatTamagotchiUseCase @Inject constructor(
-    private val tamagotchiRepository: TamagotchiRepository
+class CleanDuckUseCase @Inject constructor(
+    private val tamagotchiRepository: TamagotchiRepository,
 ) {
 
     data class Params(
@@ -18,27 +18,22 @@ class TreatTamagotchiUseCase @Inject constructor(
 
     suspend operator fun invoke(params: Params): Result<Tamagotchi> {
         val currentTamagotchi = params.tamagotchi
-        val currentState = currentTamagotchi.state
+        val currentRoom = currentTamagotchi.room
         val currentMemory = currentTamagotchi.memory
 
-        val newState = currentState.copy(
-            health = currentState.health + HEALTH_STEP,
+        val newRoom = currentRoom.copy(
+            poopQuantity = 0,
         )
 
         val newMemory = currentMemory.copy(
-            lastTreatment = LocalDateTime.now()
+            lastCleaning = LocalDateTime.now(),
         )
 
         return tamagotchiRepository.saveTamagotchi(
             tamagotchi = currentTamagotchi.copy(
-                state = newState,
                 memory = newMemory,
+                room = newRoom,
             )
         )
-    }
-
-    companion object {
-
-        private const val HEALTH_STEP = 50
     }
 }

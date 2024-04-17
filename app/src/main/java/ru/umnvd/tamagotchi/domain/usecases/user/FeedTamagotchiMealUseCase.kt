@@ -1,4 +1,4 @@
-package ru.umnvd.tamagotchi.domain.usecases.userinteraction
+package ru.umnvd.tamagotchi.domain.usecases.user
 
 import ru.umnvd.tamagotchi.domain.models.Tamagotchi
 import ru.umnvd.tamagotchi.domain.repositories.TamagotchiRepository
@@ -23,9 +23,18 @@ class FeedTamagotchiMealUseCase @Inject constructor(
         val currentState = currentTamagotchi.state
         val currentMemory = currentTamagotchi.memory
 
+        val newWeight = currentState.weight + WEIGHT_STEP
+
+        val newHealth = if (newWeight > WEIGHT_THRESHOLD) {
+            currentState.health - HEALTH_STEP
+        } else {
+            currentState.health
+        }
+
         val newState = currentState.copy(
             satiety = currentState.satiety + SATIETY_STEP,
-            weight = currentState.weight + WEIGHT_STEP,
+            weight = newWeight,
+            health = newHealth,
         )
 
         val newMemory = currentMemory.copy(
@@ -42,7 +51,9 @@ class FeedTamagotchiMealUseCase @Inject constructor(
 
     companion object {
 
-        private const val SATIETY_STEP = 10
         private const val WEIGHT_STEP = 5
+        private const val WEIGHT_THRESHOLD = 90
+        private const val HEALTH_STEP = 10
+        private const val SATIETY_STEP = 10
     }
 }

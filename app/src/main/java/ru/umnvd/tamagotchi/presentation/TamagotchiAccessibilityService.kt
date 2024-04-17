@@ -3,7 +3,6 @@ package ru.umnvd.tamagotchi.presentation
 import android.accessibilityservice.AccessibilityService
 import android.util.Log
 import android.view.accessibility.AccessibilityEvent
-import ru.umnvd.tamagotchi.presentation.TamagotchiWindow
 
 class TamagotchiAccessibilityService : AccessibilityService() {
 
@@ -15,18 +14,18 @@ class TamagotchiAccessibilityService : AccessibilityService() {
 
     override fun onServiceConnected() {
         super.onServiceConnected()
-        Log.d("TEST", "TamagotchiAccessibilityService onServiceConnected")
-        window = TamagotchiWindow(this)
-        window?.open()
+        Log.d("TEST", "TamagotchiAccessibilityService: onServiceConnected")
     }
 
     override fun onCreate() {
         super.onCreate()
-        Log.d("TEST", "TamagotchiAccessibilityService onCreate")
+        Log.d("TEST", "TamagotchiAccessibilityService: onCreate")
+        window = TamagotchiWindow(this)
+        window?.open()
     }
 
     override fun onDestroy() {
-        Log.d("TEST", "TamagotchiAccessibilityService onDestroy")
+        Log.d("TEST", "TamagotchiAccessibilityService: onDestroy")
         super.onDestroy()
         window?.close()
     }
