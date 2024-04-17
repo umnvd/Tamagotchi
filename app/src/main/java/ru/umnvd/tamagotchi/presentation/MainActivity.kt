@@ -2,40 +2,35 @@ package ru.umnvd.tamagotchi.presentation
 
 import android.app.AlarmManager
 import android.app.PendingIntent
+import android.content.ComponentName
+import android.content.Context
 import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
 import android.provider.Settings
 import android.util.Log
+import android.view.accessibility.AccessibilityEvent
+import android.view.accessibility.AccessibilityManager
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.core.content.getSystemService
 import ru.umnvd.tamagotchi.ui.theme.TamagotchiTheme
-import kotlin.time.Duration.Companion.milliseconds
 import kotlin.time.Duration.Companion.seconds
 
 
 class MainActivity : ComponentActivity() {
-
-//    private val overlaySettingsLauncher =
-//        registerForActivityResult(
-//            ActivityResultContracts.StartActivityForResult(),
-//            ::onOverlaySettingsResult,
-//        )
 
     private val accessibilitySettingsLauncher =
         registerForActivityResult(
@@ -46,14 +41,14 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        if (!Settings.canDrawOverlays(this)) {
-            Log.d("TEST", "onCreate: Has no permission")
-//            overlaySettingsLauncher.launch(createOverlaySettingsIntent())
+
+
+        if (!isAccessibilityServiceEnabled(this, TamagotchiAccessibilityService::class.java)) {
+            Log.d("TEST", "onCreate: Accessibility service not enabled")
             accessibilitySettingsLauncher.launch(createAccessibilitySettingsIntent())
         } else {
-            Log.d("TEST", "onCreate: Has permission")
-//            startTamagotchiService()
-//            startTamagotchiAccessibilityService()
+            Log.d("TEST", "onCreate: Accessibility service enabled")
+            startTamagotchiAccessibilityService()
         }
 
         setContent {
@@ -69,9 +64,15 @@ class MainActivity : ComponentActivity() {
                             .padding(16.dp),
                     ) {
                         Button(
-                            onClick = ::onScheduleServiceClick,
+                            onClick = ::onShowWindow,
                         ) {
-                            Text(text = "Schedule service")
+                            Text(text = "Show")
+                        }
+                        Spacer(modifier = Modifier.height(16.dp))
+                        Button(
+                            onClick = ::onHideWindow,
+                        ) {
+                            Text(text = "Hide")
                         }
                     }
                 }
@@ -79,61 +80,57 @@ class MainActivity : ComponentActivity() {
         }
     }
 
-    private fun onScheduleServiceClick() {
+    private fun onShowWindow() {
+        Log.d("TEST", "onHideWindow")
+        scheduleIntent(TamagotchiAccessibilityService.getShowWindowIntent(this))
+    }
+
+    private fun onHideWindow() {Log.d("TEST", "onHideWindow")
+        scheduleIntent(TamagotchiAccessibilityService.getHideWindowIntent(this))
+    }
+
+    private fun scheduleIntent(intent: Intent) {
         val alarmManager = getSystemService<AlarmManager>() ?: return
-        val intent = Intent(this, TamagotchiAccessibilityService::class.java)
         val pendingIntent = PendingIntent.getService(
             this,
             101,
             intent,
             PendingIntent.FLAG_IMMUTABLE + PendingIntent.FLAG_UPDATE_CURRENT,
         )
-        Log.d("TEST", "MainActivity: set AlarmManager")
+        Log.d("TEST", "scheduleIntent")
         alarmManager.set(
             AlarmManager.RTC_WAKEUP,
-            System.currentTimeMillis() + 10.seconds.inWholeMilliseconds,
+            System.currentTimeMillis() + 2.seconds.inWholeMilliseconds,
             pendingIntent,
         )
     }
 
-//    @Suppress("unused_parameter")
-//    private fun onOverlaySettingsResult(result: ActivityResult) {
-//        if (Settings.canDrawOverlays(this)) {
-//            Log.d("TEST", "onSettingsResult: Permission granted")
-////            startTamagotchiService()
-////            startTamagotchiAccessibilityService()
-//        } else {
-//            Log.d("TEST", "onSettingsResult: Permission denied")
-//            overlaySettingsLauncher.launch(createOverlaySettingsIntent())
-//        }
-//    }
-
     @Suppress("unused_parameter")
     private fun onAccessibilitySettingsResult(result: ActivityResult) {
-        if (Settings.canDrawOverlays(this)) {
-            Log.d("TEST", "onSettingsResult: Permission granted")
-//            startTamagotchiService()
-//            startTamagotchiAccessibilityService()
+        if (isAccessibilityServiceEnabled(this, TamagotchiAccessibilityService::class.java)) {
+            Log.d("TEST", "onAccessibilitySettingsResult: Accessibility service enabled")
         } else {
-            Log.d("TEST", "onSettingsResult: Permission denied")
-//            overlaySettingsLauncher.launch(createAccessibilitySettingsIntent())
+            Log.d("TEST", "onAccessibilitySettingsResult: Accessibility service not enabled")
         }
     }
-
-    private fun createOverlaySettingsIntent(): Intent = Intent(
-        Settings.ACTION_MANAGE_OVERLAY_PERMISSION,
-        Uri.parse("package:$packageName")
-    )
 
     private fun createAccessibilitySettingsIntent(): Intent = Intent(
         Settings.ACTION_ACCESSIBILITY_SETTINGS
     )
 
-    private fun startTamagotchiService() {
-        startService(Intent(this, TamagotchiService::class.java))
-    }
-
     private fun startTamagotchiAccessibilityService() {
         startService(Intent(this, TamagotchiAccessibilityService::class.java))
+    }
+
+    private fun isAccessibilityServiceEnabled(context: Context, service: Class<*>): Boolean {
+        val componentName = ComponentName(context, service)
+        val serviceId = componentName.flattenToShortString()
+
+        val accessibilityManager =
+            getSystemService(Context.ACCESSIBILITY_SERVICE) as AccessibilityManager
+
+        return accessibilityManager
+            .getEnabledAccessibilityServiceList(AccessibilityEvent.TYPES_ALL_MASK)
+            .any { it.id == serviceId }
     }
 }

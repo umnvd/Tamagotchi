@@ -29,7 +29,8 @@
             </intent-filter>
         </activity>
 
-        <service android:name=".presentation.TamagotchiAccessibilityService"
+        <service
+            android:name=".presentation.TamagotchiAccessibilityService"
             android:enabled="true"
             android:exported="false"
             android:permission="android.permission.BIND_ACCESSIBILITY_SERVICE">
