@@ -1,7 +1,7 @@
 package ru.umnvd.tamagotchi.domain.models
 
 /**
- * Сигналы тамагочи
+ * Сигнал тамагочи.
  * */
 enum class TamagotchiSignal {
 //    /**
@@ -10,27 +10,27 @@ enum class TamagotchiSignal {
 //    ATTENTION,
 
     /**
-     * Хочет кушать
+     * Хочет кушать.
      * */
     EAT,
 
     /**
-     * Хочет играть
+     * Хочет играть.
      * */
     PLAY,
 
     /**
-     * Хочет спать
+     * Хочет спать.
      * */
     SLEEP,
 
     /**
-     * Заболел
+     * Заболел.
      * */
     SICK,
 
     /**
-     * Покакал
+     * Покакал.
      * */
     DUCK,
 }

@@ -1,10 +1,10 @@
 package ru.umnvd.tamagotchi.domain.models
 
 /**
- * Комната тамагочи
+ * Окружение тамагочи.
  *
- * @property light включен ли свет
- * @property poopQuantity количество экскрементов
+ * @property light Включен ли свет.
+ * @property poopQuantity Количество экскрементов.
  * */
 data class TamagotchiRoom(
     val light: Boolean = true,

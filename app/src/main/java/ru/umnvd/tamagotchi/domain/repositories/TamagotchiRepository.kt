@@ -4,7 +4,7 @@ import ru.umnvd.tamagotchi.domain.models.Tamagotchi
 
 interface TamagotchiRepository {
 
-    fun getTamagotchi(): Result<Tamagotchi>
+    suspend fun getTamagotchi(): Result<Tamagotchi>
 
-    fun saveTamagotchi(tamagotchi: Tamagotchi): Result<Tamagotchi>
+    suspend fun saveTamagotchi(tamagotchi: Tamagotchi): Result<Tamagotchi>
 }

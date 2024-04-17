@@ -1,9 +1,9 @@
 package ru.umnvd.tamagotchi.domain.models
 
 /**
- * Значение составляющей состояния тамагочи
+ * Значение составляющей состояния тамагочи.
  *
- * @property value значение от -10 до 10
+ * @property value Значение от [MINIMUM_VALUE] до [MAXIMUM_VALUE].
  * */
 class TamagotchiStateValue(value: Int) {
 
@@ -11,9 +11,17 @@ class TamagotchiStateValue(value: Int) {
 
     init {
         this.value = value.coerceIn(
-            minimumValue = -10,
-            maximumValue = 10,
+            minimumValue = MINIMUM_VALUE,
+            maximumValue = MAXIMUM_VALUE,
         )
+    }
+
+    val maximum: Boolean = value == MAXIMUM_VALUE
+
+    val minimum: Boolean = value == MINIMUM_VALUE
+
+    operator fun compareTo(value: Int): Int {
+        return this.value.compareTo(value)
     }
 
     operator fun plus(value: Int): TamagotchiStateValue {
@@ -30,5 +38,11 @@ class TamagotchiStateValue(value: Int) {
 
     operator fun minus(value: TamagotchiStateValue): TamagotchiStateValue {
         return TamagotchiStateValue(this.value - value.value)
+    }
+
+    companion object {
+
+        private const val MINIMUM_VALUE = -100
+        private const val MAXIMUM_VALUE = 100
     }
 }

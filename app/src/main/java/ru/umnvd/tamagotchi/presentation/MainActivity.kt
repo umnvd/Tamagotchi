@@ -1,4 +1,4 @@
-package ru.umnvd.tamagotchi
+package ru.umnvd.tamagotchi.presentation
 
 import android.content.Intent
 import android.net.Uri
@@ -16,8 +16,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import ru.umnvd.tamagotchi.presentation.TamagotchiAccessibilityService
-import ru.umnvd.tamagotchi.presentation.TamagotchiService
 import ru.umnvd.tamagotchi.ui.theme.TamagotchiTheme
 
 

@@ -8,6 +8,7 @@ androidxComposeBom = "2024.03.00"
 androidxComposeUi = "1.6.4"
 androidxComposeMaterial3 = "1.2.1"
 androidxDatastore = "1.0.0"
+dagger = "2.51.1"
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }
@@ -24,8 +25,10 @@ androidx-compose-ui-graphics = { module = "androidx.compose.ui:ui-graphics", ver
 androidx-compose-ui-tooling = { module = "androidx.compose.ui:ui-tooling", version.ref = "androidxComposeUi" }
 androidx-compose-ui-tooling-preview = { module = "androidx.compose.ui:ui-tooling-preview", version.ref = "androidxComposeUi" }
 androidx-compose-ui-test-manifest = { module = "androidx.compose.ui:ui-test-manifest", version.ref = "androidxComposeUi" }
-
 androidx-compose-material3 = { module = "androidx.compose.material3:material3", version.ref = "androidxComposeMaterial3" }
+
+dagger = { module = "com.google.dagger:dagger", version.ref = "dagger" }
+dagger-compiler = { module = "com.google.dagger:dagger-compiler", version.ref = "dagger" }
 
 androidx-datastore = { module = "androidx.datastore:datastore", version.ref = "androidxDatastore" }
 

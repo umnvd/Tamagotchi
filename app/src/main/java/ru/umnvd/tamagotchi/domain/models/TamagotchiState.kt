@@ -1,14 +1,14 @@
 package ru.umnvd.tamagotchi.domain.models
 
 /**
- * Состояние тамагочи
+ * Состояние тамагочи.
  *
- * @property health здоровье
- * @property energy бодрость
- * @property satiety сытость
- * @property weight вес
- * @property joy радость
- * @property discipline дисциплина
+ * @property health Здоровье.
+ * @property energy Бодрость.
+ * @property satiety Сытость.
+ * @property weight Вес.
+ * @property joy Радость.
+ * @property discipline Дисциплина.
  * */
 data class TamagotchiState(
     val health: TamagotchiStateValue = TamagotchiStateValue(DEFAULT_HEALTH),
@@ -20,6 +20,7 @@ data class TamagotchiState(
 ) {
 
     companion object {
+
         private const val DEFAULT_HEALTH = 10
         private const val DEFAULT_ENERGY = 5
         private const val DEFAULT_SATIETY = 0
