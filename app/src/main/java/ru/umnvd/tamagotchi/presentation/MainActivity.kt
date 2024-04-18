@@ -26,12 +26,11 @@ import androidx.compose.material3.Text
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.core.content.getSystemService
-import ru.umnvd.tamagotchi.ui.theme.TamagotchiTheme
+import ru.umnvd.tamagotchi.core.ui.theme.TamagotchiTheme
 import kotlin.time.Duration.Companion.seconds
 
 
 class MainActivity : ComponentActivity() {
-
     private val accessibilitySettingsLauncher =
         registerForActivityResult(
             ActivityResultContracts.StartActivityForResult(),

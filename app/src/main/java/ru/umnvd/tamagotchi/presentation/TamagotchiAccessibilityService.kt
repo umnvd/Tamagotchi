@@ -34,7 +34,6 @@ class TamagotchiAccessibilityService :
     AccessibilityService(),
     LifecycleOwner,
     SavedStateRegistryOwner {
-
     private val lifecycleRegistry = LifecycleRegistry(this)
     private val savedStateRegistryController = SavedStateRegistryController.create(this)
 
@@ -135,7 +134,6 @@ class TamagotchiAccessibilityService :
     }
 
     companion object {
-
         private const val SHOW_WINDOW_EXTRA_KEY = "show_window"
         private const val HIDE_WINDOW_EXTRA_KEY = "hide_window"
 

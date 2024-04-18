@@ -23,3 +23,7 @@ dependencyResolutionManagement {
 
 rootProject.name = "Tamagotchi"
 include(":app")
+include(":core:ui")
+include(":core:decompose")
+include(":common:domain")
+include(":common:data")

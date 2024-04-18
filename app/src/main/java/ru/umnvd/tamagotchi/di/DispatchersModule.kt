@@ -8,7 +8,6 @@ import javax.inject.Singleton
 
 @Module
 class DispatchersModule {
-
     @Provides
     @Singleton
     @MainDispatcher
@@ -26,6 +25,7 @@ class DispatchersModule {
 
 }
 
+// TODO: Перенести в
 annotation class MainDispatcher
 annotation class DefaultDispatcher
 annotation class IODispatcher
