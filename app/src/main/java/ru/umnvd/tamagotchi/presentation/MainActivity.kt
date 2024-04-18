@@ -81,7 +81,7 @@ class MainActivity : ComponentActivity() {
     }
 
     private fun onShowWindow() {
-        Log.d("TEST", "onHideWindow")
+        Log.d("TEST", "onShowWindow")
         scheduleIntent(TamagotchiAccessibilityService.getShowWindowIntent(this))
     }
 
